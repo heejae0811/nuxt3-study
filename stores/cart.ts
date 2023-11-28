@@ -41,9 +41,7 @@ export const useCartStore = defineStore({
       }
 
 
-
       console.log(this.items)
-
     },
 
     decreaseItem(name: string) {

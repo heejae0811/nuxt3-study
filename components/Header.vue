@@ -3,8 +3,6 @@
     <nav>
       <NuxtLink to="/">Home</NuxtLink>
       <NuxtLink to="/auth">Login</NuxtLink>
-      <NuxtLink to="/custom">Custom</NuxtLink>
-      <NuxtLink to="/state">State</NuxtLink>
     </nav>
   </header>
 </template>
