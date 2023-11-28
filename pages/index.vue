@@ -10,46 +10,64 @@ function addToDo() {
     newToDo.value = ''
   }
 }
+
+function sortLatest() {
+  toDo.toDoList.sort((a, b) => a.id - b.id)
+}
+
+function sortRegistered() {
+  toDo.toDoList.sort((a, b) => b.id - a.id)
+}
 </script>
 
 <template>
-  <div class="w-full max-w-screen-lg m-auto">
+  <section class="w-full max-w-screen-lg m-auto">
     <h1 class="mb-10 text-5xl font-bold text-center">ToDo List</h1>
 
-    <form @submit.prevent="addToDo()">
+    <form
+      class="mb-5"
+      @submit.prevent="addToDo()">
       <label for="toDo" class="block mb-3 text-xl font-bold">New ToDo</label>
 
       <div class="flex justify-between gap-5">
         <input
+          v-model="newToDo"
           type="text"
           id="toDo"
           class="w-3/4 px-3 py-4 rounded text-black"
-          v-model="newToDo"/>
-        <button class="w-1/4 bg-slate-500 rounded">Add ToDo</button>
+          placeholder="할 일을 입력해 주세요."/>
+        <button class="w-1/4 bg-slate-500 rounded">추가하기</button>
       </div>
     </form>
 
-    <ul>
-      <li
-        v-for="(list, key) in toDo.toDoList"
-        :key="key"
-        class="flex justify-between items-center gap-5 mt-5 px-5 py-2 border rounded">
-        <p class="flex gap-5 text-lg">
-          <span>{{ key + 1 }}.</span> {{ list.content }}
-        </p>
-        <button
-          class="px-5 py-2 bg-slate-500 rounded"
-          @click="toDo.deleteToDo(list.id)">
-          Delete
-        </button>
-      </li>
-    </ul>
+    <div v-if="toDo.toDoList.length > 0">
+      <div class="flex gap-2">
+        <button @click="sortLatest()">등록순</button>
+        <i>|</i>
+        <button @click="sortRegistered()">최신순</button>
+      </div>
 
-    <button
-      v-if="toDo.toDoList.length > 0"
-      class="block w-1/3 mt-10 m-auto px-3 py-4 bg-slate-400 rounded"
-      @click="toDo.clearTodo()">
-      Clear ToDo List
-    </button>
-  </div>
+      <ul>
+        <li
+          v-for="(list, key) in toDo.toDoList"
+          :key="key"
+          class="flex justify-between items-center gap-5 mt-5 px-5 py-2 border rounded">
+          <p class="flex gap-5 text-lg">
+            <span>{{ key + 1 }}.</span> {{ list.content }}
+          </p>
+          <button
+            @click="toDo.deleteToDo(list.id)"
+            class="px-5 py-2 bg-slate-500 rounded">
+            삭제
+          </button>
+        </li>
+      </ul>
+
+      <button
+        @click="toDo.clearTodo()"
+        class="block w-1/3 mt-10 m-auto px-3 py-4 bg-slate-400 rounded">
+        전체 삭제하기
+      </button>
+    </div>
+  </section>
 </template>
