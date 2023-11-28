@@ -1,4 +1,8 @@
 export default defineNuxtConfig({
+  target: 'static',
+  router: {
+    base: '/nuxt3-todo/'
+  },
   devtools: { enabled: true },
   modules: [
     '@pinia/nuxt',
