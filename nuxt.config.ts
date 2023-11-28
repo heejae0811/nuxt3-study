@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
-  target: 'static',
-  router: {
-    base: '/nuxt3-todo/'
+  app: {
+    baseURL: '/nuxt3-todo/',
+    buildAssetsDir: 'assets'
   },
   devtools: { enabled: true },
   modules: [
