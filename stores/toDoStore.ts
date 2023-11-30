@@ -24,7 +24,7 @@ export const useToDoStore = defineStore('toDo', {
       }
     },
 
-    clearTodo() {
+    clearToDo() {
       if(window.confirm('리스트를 모두 삭제하시겠습니까?')) {
         this.toDoList = []
       }

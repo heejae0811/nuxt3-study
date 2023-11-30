@@ -4,6 +4,8 @@ import { useToDoStore } from '@/stores/toDoStore'
 const toDo = useToDoStore()
 const newToDo = ref('')
 
+let isActive = true
+
 function addToDo() {
   if(newToDo.value) {
     toDo.addToDo(newToDo.value)
@@ -11,12 +13,14 @@ function addToDo() {
   }
 }
 
-function sortLatest() {
+function sortRegistered() {
   toDo.toDoList.sort((a, b) => a.id - b.id)
+  isActive = !isActive
 }
 
-function sortRegistered() {
+function sortLatest() {
   toDo.toDoList.sort((a, b) => b.id - a.id)
+  isActive = !isActive
 }
 </script>
 
@@ -42,9 +46,13 @@ function sortRegistered() {
 
     <div v-if="toDo.toDoList.length > 0">
       <div class="flex gap-2">
-        <button @click="sortLatest()">등록순</button>
+        <button
+          :class="{ 'underline underline-offset-4' : isActive }"
+          @click="sortRegistered()">등록순</button>
         <i>|</i>
-        <button @click="sortRegistered()">최신순</button>
+        <button
+          :class="{ 'underline underline-offset-4' : !isActive }"
+          @click="sortLatest()">최신순</button>
       </div>
 
       <ul>
@@ -64,7 +72,7 @@ function sortRegistered() {
       </ul>
 
       <button
-        @click="toDo.clearTodo()"
+        @click="toDo.clearToDo()"
         class="block w-1/3 mt-10 m-auto px-3 py-4 bg-slate-400 rounded">
         전체 삭제하기
       </button>
