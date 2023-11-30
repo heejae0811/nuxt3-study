@@ -4,7 +4,9 @@ export default defineNuxtConfig({
       title: 'ToDo List',
       meta: [
         { name: 'description', content: '오늘의 할 일은 무엇일까요?' },
-        { name: 'image', content: 'https://heejae0811.github.io/nuxt3-todo/meta.jpg'}
+        { property: 'og:title', content: '오늘의 할 일'},
+        { property: 'og:description', content: '오늘의 할 일은 무엇일까요?'},
+        { property: 'og:image', content: 'https://heejae0811.github.io/nuxt3-todo/meta.jpg'}
       ],
       link: [
         {
