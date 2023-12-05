@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'ToDo List',
+      title: 'Nuxt3 To Do List',
       meta: [
         { name: 'description', content: '오늘의 할 일은 무엇인가요?' },
         { property: 'og:title', content: '오늘의 할 일' },
