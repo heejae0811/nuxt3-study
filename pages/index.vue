@@ -1,25 +1,56 @@
 <script setup lang="ts">
-import {useToDoStore} from '@/stores/toDoStore'
-
-const toDo = useToDoStore()
 const newToDo = ref('')
-
 let isActive = true
 
-function addToDo() {
-  if (newToDo.value) {
-    toDo.addToDo(newToDo.value)
-    newToDo.value = ''
+// axios.get 기능 (toDo 가져오기)
+const { data, refresh } = await useFetch('http://localhost:3001/todo')
+
+const _ = require('lodash');
+const toDoList = _.fromPairs(_.sortBy(_.toPairs(data), ([value]) => value));
+
+console.log(toDoList)
+
+
+// axios.post 기능 (toDo 추가하기)
+async function addToDo() {
+  await $fetch('http://localhost:3001/todo', {
+    method: 'POST',
+    body: {
+      todo: newToDo.value
+    }
+  })
+
+  newToDo.value = ''
+  await refresh()
+}
+
+// axios.delete 기능 (toDo 삭제하기)
+async function deleteToDo(id: number) {
+  await $fetch(`http://localhost:3001/todo/${id}`, {
+    method: 'DELETE'
+  })
+
+  await refresh()
+}
+
+// axios.delete 기능 (toDo 전체 삭제하기)
+async function clearToDo() {
+  if(window.confirm('리스트를 모두 삭제하시겠습니까?')) {
+    await $fetch(`http://localhost:3001/todo`, {
+      method: 'DELETE'
+    })
+
+    await refresh()
   }
 }
 
 function sortRegistered() {
-  toDo.toDoList.sort((a, b) => a.id - b.id)
+  data.keys(object).sort((a, b) => a.id - b.id)
   isActive = !isActive
 }
 
 function sortLatest() {
-  toDo.toDoList.sort((a, b) => b.id - a.id)
+  data.sort((a, b) => b.id - a.id)
   isActive = !isActive
 }
 </script>
@@ -48,7 +79,7 @@ function sortLatest() {
       </div>
     </form>
 
-    <div v-if="toDo.toDoList.length > 0">
+    <div>
       <div class="flex gap-2 mb-6">
         <button
           :class="{ 'underline underline-offset-4' : isActive }"
@@ -65,16 +96,16 @@ function sortLatest() {
 
       <ul>
         <li
-            v-for="(list, key) in toDo.toDoList"
+            v-for="(list, key) in data"
             :key="key"
             class="flex justify-between items-center gap-3 mb-6 px-4 py-3 md:px-5 border rounded">
           <p class="flex gap-2 text-base md:text-lg">
-            <span>{{ key + 1 }}.</span> {{ list.content }}
+            <span>{{ key + 1 }}.</span> {{ list.todo }}
           </p>
 
           <button
             class="min-w-fit px-5 py-2 bg-teal-600 hover:bg-teal-500 transition rounded"
-            @click="toDo.deleteToDo(list.id)">
+            @click="deleteToDo(list.id)">
             삭제
           </button>
         </li>
@@ -82,7 +113,7 @@ function sortLatest() {
 
       <button
         class="block w-full md:w-1/3 m-auto mt-12 px-3 py-4 bg-teal-950 hover:bg-teal-500 transition rounded"
-        @click="toDo.clearToDo()">
+        @click="clearToDo()">
         전체 삭제하기
       </button>
     </div>
