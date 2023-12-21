@@ -1,4 +1,4 @@
 # 기능 구현
-1. pinia를 이용해 toDoList 상태 저장하기 (추가, 삭제, 전체 삭제)
-2. toDoList 등록순/최신순 정렬하기
-3. 테일윈드 CSS 적용하기
+1. Nest.js + PSQL 백엔드 (https://github.com/heejae0811/todo-backend)
+2. useFetch()를 통해서 toDo 데이터 처리하기 (GET, POST, DELETE)
+3. React Tailwind CSS
