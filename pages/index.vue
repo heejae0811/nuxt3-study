@@ -1,27 +1,34 @@
 <script setup lang="ts">
+interface IToDo {
+  id: number
+  todo: string
+  created_at: Date
+}
+
 const newToDo = ref('')
-let isActive = true
+const isActive = ref(true)
 
 // axios.get 기능 (toDo 가져오기)
-const { data, refresh } = await useFetch('http://localhost:3001/todo')
+const { data, refresh } = await useFetch<IToDo[]>('http://localhost:3001/todo')
+const toDoData = ref(data.value ? [...data.value] : [])
 
-const _ = require('lodash');
-const toDoList = _.fromPairs(_.sortBy(_.toPairs(data), ([value]) => value));
-
-console.log(toDoList)
-
+watch(() => data.value, () => {
+  toDoData.value = isActive.value ? [...data.value] : [...data.value].reverse()
+})
 
 // axios.post 기능 (toDo 추가하기)
 async function addToDo() {
-  await $fetch('http://localhost:3001/todo', {
-    method: 'POST',
-    body: {
-      todo: newToDo.value
-    }
-  })
+  if(newToDo.value === '') {
+    alert('할 일을 입력해 주세요.')
+  } else {
+    await $fetch('http://localhost:3001/todo', {
+      method: 'POST',
+      body: { todo: newToDo.value }
+    })
 
-  newToDo.value = ''
-  await refresh()
+    newToDo.value = ''
+    await refresh()
+  }
 }
 
 // axios.delete 기능 (toDo 삭제하기)
@@ -44,14 +51,10 @@ async function clearToDo() {
   }
 }
 
-function sortRegistered() {
-  data.keys(object).sort((a, b) => a.id - b.id)
-  isActive = !isActive
-}
-
-function sortLatest() {
-  data.sort((a, b) => b.id - a.id)
-  isActive = !isActive
+// 등록순, 최신순 정렬하기
+function sortToDo(compareFn: (a: IToDo, b: IToDo) => number) {
+  toDoData.value = [...data.value].sort(compareFn)
+  isActive.value = !isActive.value
 }
 </script>
 
@@ -79,33 +82,33 @@ function sortLatest() {
       </div>
     </form>
 
-    <div>
+    <div v-if="toDoData.length > 0">
       <div class="flex gap-2 mb-6">
         <button
           :class="{ 'underline underline-offset-4' : isActive }"
-          @click="sortRegistered()">
+          @click="() => sortToDo((a, b) => a.id - b.id)">
           등록순
         </button>
         <i>|</i>
         <button
           :class="{ 'underline underline-offset-4' : !isActive }"
-          @click="sortLatest()">
+          @click="() => sortToDo((a, b) => b.id - a.id)">
           최신순
         </button>
       </div>
 
       <ul>
         <li
-            v-for="(list, key) in data"
+            v-for="(data, key) in toDoData"
             :key="key"
             class="flex justify-between items-center gap-3 mb-6 px-4 py-3 md:px-5 border rounded">
           <p class="flex gap-2 text-base md:text-lg">
-            <span>{{ key + 1 }}.</span> {{ list.todo }}
+            <span>{{ key + 1 }}.</span> {{ data.todo }}
           </p>
 
           <button
             class="min-w-fit px-5 py-2 bg-teal-600 hover:bg-teal-500 transition rounded"
-            @click="deleteToDo(list.id)">
+            @click="deleteToDo(data.id)">
             삭제
           </button>
         </li>
