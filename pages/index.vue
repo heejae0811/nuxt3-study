@@ -59,7 +59,7 @@ function sortToDo(compareFn: (a: IToDo, b: IToDo) => number) {
 </script>
 
 <template>
-  <section class="w-full max-w-screen-lg min-h-screen m-auto">
+  <section>
     <h1 class="mt-6 mb-12 md:mt-10 text-5xl font-bold text-center">To Do List</h1>
 
     <form
@@ -103,7 +103,11 @@ function sortToDo(compareFn: (a: IToDo, b: IToDo) => number) {
             :key="key"
             class="flex justify-between items-center gap-3 mb-6 px-4 py-3 md:px-5 border rounded">
           <p class="flex gap-2 text-base md:text-lg">
-            <span>{{ key + 1 }}.</span> {{ data.todo }}
+            <NuxtLink
+              :to="`/${data.id}`"
+              class="hover:underline underline-offset-8">
+              <span>{{ key + 1 }}.</span> {{ data.todo }}
+            </NuxtLink>
           </p>
 
           <button
