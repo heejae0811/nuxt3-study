@@ -1,0 +1,1 @@
+import{_ as o}from"./Footer.30c36d45.js";import{_ as s,c as n,a,R as c,b as r,o as _}from"./entry.049cdbdf.js";const l={},m={class:"w-full min-h-screen p-6 bg-teal-900 text-white"},d={class:"w-full max-w-screen-lg min-h-screen m-auto"};function f(e,i){const t=o;return _(),n("div",m,[a("main",d,[c(e.$slots,"default")]),r(t)])}const h=s(l,[["render",f]]);export{h as default};

@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o,a as c}from"./entry.049cdbdf.js";const s={},n={class:"mt-12"},_=c("p",{class:"text- text-center"},"Copyright 2023. LeeHeejae All pictures cannot be copied without permission.",-1),r=[_];function a(i,p){return t(),o("footer",n,r)}const l=e(s,[["render",a]]);export{l as _};
