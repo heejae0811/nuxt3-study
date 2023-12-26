@@ -99,9 +99,9 @@ function sortToDo(compareFn: (a: IToDo, b: IToDo) => number) {
 
       <ul>
         <li
-            v-for="(data, key) in toDoData"
-            :key="key"
-            class="flex justify-between items-center gap-3 mb-6 px-4 py-3 md:px-5 border rounded">
+          v-for="(data, key) in toDoData"
+          :key="key"
+          class="flex justify-between items-center gap-3 mb-6 px-4 py-3 md:px-5 border rounded">
           <p class="flex gap-2 text-base md:text-lg">
             <NuxtLink
               :to="`/${data.id}`"

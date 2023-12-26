@@ -15,11 +15,13 @@ const { data } = await useFetch(`http://localhost:3001/todo/${route.params.id}`)
         <p class="text-xl font-bold">{{ dayjs(data.created_at).format('YYYY.MM.DD') }}</p>
       </div>
 
-      <p class="flex gap-2 text-base md:text-lg">{{ data.todo }}</p>
+      <p class="text-base md:text-lg">{{ data.todo }}</p>
     </div>
 
-    <NuxtLink to="/"  class="block w-full md:w-1/3 m-auto mt-12 px-3 py-4 bg-teal-950 hover:bg-teal-500 transition rounded text-center">
+    <NuxtLink
+      to="/"
+      class="block w-full md:w-1/3 m-auto mt-12 px-3 py-4 bg-teal-950 hover:bg-teal-500 transition rounded text-center">
       Go to To Do List
-    </NuxtLink >
+    </NuxtLink>
   </section>
 </template>
