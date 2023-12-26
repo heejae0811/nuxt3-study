@@ -18,6 +18,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@pinia/nuxt',
+    'dayjs-nuxt'
   ],
   css: ['@/assets/scss/main.scss'],
   postcss: {
